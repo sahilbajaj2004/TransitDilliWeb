@@ -205,7 +205,13 @@ export function TransitMap({
         const marker = L.marker([stop.lat, stop.lon], { icon: stopIcon });
         marker.on('click', () => onStopSelect(stop));
         marker.bindTooltip(
-          `<div style="font-weight: 600; font-size: 11px; color: #0F172A;">${stop.name}</div>`,
+          `
+          <div style="font-family: sans-serif; font-size: 11px; padding: 2px;">
+            <div style="font-weight: 700; color: #0F172A;">${stop.name}</div>
+            <div style="color: #64748B; font-size: 10px;">Stop #${stop.code}</div>
+            ${stop.distanceMeters ? `<div style="color: #2563EB; font-weight: 600; font-size: 10px; margin-top: 1px;">${stop.distanceMeters > 1000 ? `${(stop.distanceMeters/1000).toFixed(1)} km` : `${stop.distanceMeters} m`} away</div>` : ''}
+          </div>
+          `,
           { direction: 'top', offset: [0, -10] }
         );
         marker.addTo(group);
@@ -276,10 +282,13 @@ export function TransitMap({
         marker.on('click', () => onBusSelect(bus));
         marker.bindTooltip(
           `
-          <div style="font-family: sans-serif; font-size: 11px; padding: 2px;">
-            <div style="font-weight: 700; color: #0F172A;">${bus.routeShortName} • ${bus.registration}</div>
-            <div style="color: #64748B; font-size: 10px;">${bus.agencyName}</div>
-            <div style="color: #059669; font-weight: 600; font-size: 10px; margin-top: 2px;">${bus.speed} km/h • ${bus.lastUpdated}</div>
+          <div style="font-family: sans-serif; font-size: 11px; padding: 2px; max-width: 220px;">
+            <div style="font-weight: 700; color: #0F172A; font-size: 12px;">Route ${bus.routeShortName} • ${bus.registration}</div>
+            <div style="color: #475569; font-size: 10px; margin-top: 1px;">To: ${bus.destination}</div>
+            <div style="color: #64748B; font-size: 9px;">${bus.agencyName}</div>
+            <div style="color: #059669; font-weight: 600; font-size: 10px; margin-top: 2px;">
+              ${bus.speed > 0 ? `${bus.speed} km/h` : 'At stop / Standstill'} • ${bus.lastUpdated}
+            </div>
           </div>
         `,
           { direction: 'top', offset: [0, -14] }

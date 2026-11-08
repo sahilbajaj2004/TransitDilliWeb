@@ -7,7 +7,8 @@ export interface Bus {
   agencyName: string;
   routeId: string;
   routeShortName: string;
-  direction: 'UP' | 'DOWN';
+  direction?: 'UP' | 'DOWN';
+  origin?: string;
   destination: string;
   lat: number;
   lon: number;
@@ -17,6 +18,8 @@ export interface Bus {
   isAc: boolean;
   occupancy: 'LOW' | 'MEDIUM' | 'HIGH';
   lastUpdated: string;
+  distanceMeters?: number;
+  freshness?: string;
   nextStopName?: string;
   nextStopEtaMinutes?: number;
   color: string;
@@ -29,6 +32,7 @@ export interface TransitStop {
   lat: number;
   lon: number;
   routes: string[];
+  distanceMeters?: number;
 }
 
 export interface ArrivalEstimate {
@@ -43,9 +47,12 @@ export interface ArrivalEstimate {
   isAc: boolean;
   etaMinutes: number;
   etaSeconds: number;
+  predictedArrivalTime?: string;
+  stopsRemaining?: number;
   distanceKm: number;
   speedKmH: number;
   crowding: 'LOW' | 'MEDIUM' | 'HIGH';
+  freshness?: string;
 }
 
 export interface RouteStop {
@@ -66,6 +73,7 @@ export interface TransitRoute {
   isElectricOnly: boolean;
   activeBusCount: number;
   frequencyMinutes: number;
+  polyline?: string | null;
   stops: RouteStop[];
 }
 
